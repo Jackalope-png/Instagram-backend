@@ -5,10 +5,10 @@ const postController = require('../controllers/postControllers');
 // Create a new post
 router.post('/', postController.createPost);
 
-// Get all posts
+// Get all posts with likes populated
 router.get('/', postController.getAllPosts);
 
-// Get posts by user
+// Get posts by user with likes populated
 router.get('/user/:userId', postController.getPostsByUser);
 
 // Delete a post
