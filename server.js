@@ -21,7 +21,7 @@ async function connectDb() {
     }
 }
 
-app.use('/api/users', UserRoutes);
+app.use(UserRoutes);
 
 app.use('/api/posts', postRoutes);
 
