@@ -7,6 +7,7 @@ const app = express();
 const UserRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 const likeRoutes = require('./routes/likeRoutes')
+const commentRoutes = require('./routes/commentRoutes')
 
 app.use(cors())
 app.use(express.json());
@@ -23,10 +24,11 @@ async function connectDb() {
 
 app.use(UserRoutes);
 
-app.use('/api/posts', postRoutes);
+app.use('/posts', postRoutes);
 
-app.use('/api/likes', likeRoutes);
+app.use(likeRoutes);
 
+app.use('/posts', commentRoutes)
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
