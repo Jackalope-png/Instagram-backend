@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     profileImage:{ type: String, 
         default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC29mdR0ZLibl0JNBx29bEqJ3oWLZHTLRhzA&s', 
-        ref: "pfp"},
+        ref: "author"},
     bio:{type:String},
     posts: [{type: mongoose.Schema.Types.ObjectId, ref: "Posts"}],
     followers: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
