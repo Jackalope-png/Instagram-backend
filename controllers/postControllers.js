@@ -22,13 +22,12 @@ exports.createPost = async (req, res) => {
     }
 };
 
-// Get all posts with likes populated
 exports.getAllPosts = async (req, res) => {
     try {
         const posts = await Post.find()
-            .populate('author', 'username email') // Populate author details
-            .populate('likes', 'username email') // Populate likes with user details
-            .sort({ createdAt: -1 }); // Sort by most recent
+            .populate('author', 'username profileImage')
+            .populate('likes', 'username profileImage')
+            .sort({ createdAt: -1 });
 
         res.status(200).json(posts);
     } catch (error) {
@@ -37,15 +36,15 @@ exports.getAllPosts = async (req, res) => {
     }
 };
 
-// Get posts by user with likes populated
 exports.getPostsByUser = async (req, res) => {
     const { userId } = req.params;
 
     try {
         const posts = await Post.find({ author: userId })
-            .populate('author', 'username email') // Populate author details
-            .populate('likes', 'username email') // Populate likes with user details
-            .sort({ createdAt: -1 }); // Sort by most recent
+            
+            .populate('author', 'username profileImage')
+            .populate('likes', 'username profileImage')
+            .sort({ createdAt: -1 });
 
         res.status(200).json(posts);
     } catch (error) {

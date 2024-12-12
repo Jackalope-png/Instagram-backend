@@ -37,15 +37,14 @@ exports.createComment = async (req, res) => {
   }
 };
 
-// Get all comments for a specific post
+//  load all comments from a post
 exports.getCommentsByPost = async (req, res) => {
   const { postId } = req.params;
 
   try {
-    // Get all comments for a post and populate author details (user's username and email)
     const comments = await Comment.find({ postId })
-      .populate('userId', 'username email') // Populate user details
-      .sort({ createdAt: -1 }); // Sort comments by most recent
+      .populate('userId', 'username profileImage') // Populate user details
+      .sort({ createdAt: -1 });
 
     res.status(200).json(comments);
   } catch (error) {
@@ -65,7 +64,7 @@ exports.deleteComment = async (req, res) => {
       return res.status(404).json({ message: 'Comment not found' });
     }
 
-    // Check if the user deleting the comment is the author
+    // check if its your own comment that you trying to delete
     if (comment.userId.toString() !== userId) {
       return res.status(403).json({ message: 'You can only delete your own comments' });
     }
