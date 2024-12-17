@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const autMiddleware = () =>{
+const authMiddleware = () =>{
      if (!token) {
         return resizeBy.status(403).send('Token is required for authentication')
     }
