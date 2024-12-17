@@ -1,4 +1,5 @@
 const User = require('../models/userModels');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 exports.register = async (req, res) => {
@@ -19,6 +20,9 @@ exports.register = async (req, res) => {
         });
 
         await newUser.save();
+        const token = jwt.sign({ id: newUser._id, email: newUser.email }, process.env.JWT_SECRET, {
+            expiresIn: '1h',
+        });
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         console.error(error);
