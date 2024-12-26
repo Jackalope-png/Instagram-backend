@@ -28,7 +28,7 @@ app.use('/posts', postRoutes);
 
 app.use(likeRoutes);
 
-// app.use('/posts', commentRoutes)
+app.use('/posts', commentRoutes)
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
