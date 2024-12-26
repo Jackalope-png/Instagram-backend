@@ -8,7 +8,7 @@ const router = express.Router();
 router.post( postController.createPost);
 
 // Get all posts with likes populated
-router.get( authMiddleware, postController.getAllPosts);
+router.get("/getAllPosts", authMiddleware, postController.getAllPosts);
 
 // Get posts by user with likes populated
 router.get('/user/:userId', postController.getPostsByUser);
