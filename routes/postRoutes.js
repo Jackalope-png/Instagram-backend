@@ -5,10 +5,10 @@ const router = express.Router();
 
 
 // Create a new post
-router.post("/createPost", authMiddleware, postController.createPost);
+router.post("/createPost", postController.createPost);
 
 // Get all posts with likes populated
-router.get("/getAllPosts", postController.getAllPosts);
+router.get("/getAllPosts", authMiddleware, postController.getAllPosts);
 
 // Get posts by user with likes populated
 router.get('/user/:userId', postController.getPostsByUser);
