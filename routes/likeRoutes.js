@@ -5,7 +5,9 @@ const likeRouter = express.Router();
 
 likeRouter.post("/posts/like", async (req, res) => {
   const { postId, userId } = req.body;
-
+  if (!postId || !userId) {
+    return res.status(400).json({ message: 'Post ID and User ID are required' });
+  }
   try {
     const post = await postModel.findById(postId);
     if (!post) {
@@ -29,7 +31,7 @@ likeRouter.post("/posts/like", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Skill issue 1' });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
 
