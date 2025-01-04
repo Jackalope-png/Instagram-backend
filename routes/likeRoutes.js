@@ -1,9 +1,10 @@
 const express = require("express");
 const postModel = require("../models/postModels");
+const authMiddleware = require('../authMiddlewares');
 
 const likeRouter = express.Router();
 
-likeRouter.post("/posts/like", async (req, res) => {
+likeRouter.post("/posts/like", authMiddleware, async (req, res) => {
   const { postId, userId } = req.body;
   if (!postId || !userId) {
     return res.status(400).json({ message: 'Post ID and User ID are required' });
@@ -28,6 +29,11 @@ likeRouter.post("/posts/like", async (req, res) => {
         content: post.content,
         likes: post.likes.length,
       },
+      user: {
+        username: user.username,
+        profileImage: user.profileImage,
+        _id: user._id,
+      },
     });
   } catch (error) {
     console.error(error);
@@ -35,7 +41,7 @@ likeRouter.post("/posts/like", async (req, res) => {
   }
 });
 
-likeRouter.post("/posts/unlike", async (req, res) => {
+likeRouter.post("/posts/unlike", authMiddleware, async (req, res) => {
   const { postId, userId } = req.body;
 
   try {
@@ -57,6 +63,11 @@ likeRouter.post("/posts/unlike", async (req, res) => {
         id: post._id,
         content: post.content,
         likes: post.likes.length,
+      },
+      user: {
+        username: user.username,
+        profileImage: user.profileImage,
+        _id: user._id,
       },
     });
   } catch (error) {
