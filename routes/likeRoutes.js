@@ -29,8 +29,8 @@ likeRouter.post("/posts/like", async (req, res) => {
         likes: post.likes.length,
       },
       user: {
-        username: user.username,
-        profileImage: user.profileImage,
+        // username: user.username,
+        // profileImage: user.profileImage,
         _id: user._id,
       },
     });
@@ -64,8 +64,8 @@ likeRouter.post("/posts/unlike", async (req, res) => {
         likes: post.likes.length,
       },
       user: {
-        username: user.username,
-        profileImage: user.profileImage,
+        // username: user.username,
+        // profileImage: user.profileImage,
         _id: user._id,
       },
     });
