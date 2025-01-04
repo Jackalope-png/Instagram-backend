@@ -5,21 +5,26 @@ const authMiddleware = require('../authMiddlewares');
 const likeRouter = express.Router();
 
 likeRouter.post("/posts/like", authMiddleware, async (req, res) => {
-  const { postId, userId } = req.body;
-  if (!postId || !userId) {
+  const { postId } = req.body;
+  const { username, profileImage, id } = req.userData; // userData will now be available from the authMiddleware
+
+  if (!postId || !id) {
     return res.status(400).json({ message: 'Post ID and User ID are required' });
   }
+
   try {
     const post = await postModel.findById(postId);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    if (post.likes.includes(userId)) {
+    // Check if the user has already liked this post
+    if (post.likes.includes(id)) {
       return res.status(400).json({ message: 'You already liked this post' });
     }
 
-    post.likes.push(userId);
+    // Add the userId to the likes array
+    post.likes.push(id);
     await post.save();
 
     res.status(200).json({
@@ -30,9 +35,9 @@ likeRouter.post("/posts/like", authMiddleware, async (req, res) => {
         likes: post.likes.length,
       },
       user: {
-        username: user.username,
-        profileImage: user.profileImage,
-        _id: user._id,
+        username: username,
+        profileImage: profileImage,
+        _id: id,
       },
     });
   } catch (error) {
@@ -42,7 +47,12 @@ likeRouter.post("/posts/like", authMiddleware, async (req, res) => {
 });
 
 likeRouter.post("/posts/unlike", authMiddleware, async (req, res) => {
-  const { postId, userId } = req.body;
+  const { postId } = req.body;
+  const { username, profileImage, id } = req.userData; // userData will now be available from the authMiddleware
+
+  if (!postId || !id) {
+    return res.status(400).json({ message: 'Post ID and User ID are required' });
+  }
 
   try {
     const post = await postModel.findById(postId);
@@ -50,11 +60,13 @@ likeRouter.post("/posts/unlike", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    if (!post.likes.includes(userId)) {
+    // Check if the user has liked this post
+    if (!post.likes.includes(id)) {
       return res.status(400).json({ message: 'You have not liked this post' });
     }
 
-    post.likes.pull(userId);
+    // Remove the userId from the likes array
+    post.likes.pull(id);
     await post.save();
 
     res.status(200).json({
@@ -65,9 +77,9 @@ likeRouter.post("/posts/unlike", authMiddleware, async (req, res) => {
         likes: post.likes.length,
       },
       user: {
-        username: user.username,
-        profileImage: user.profileImage,
-        _id: user._id,
+        username: username,
+        profileImage: profileImage,
+        _id: id,
       },
     });
   } catch (error) {
