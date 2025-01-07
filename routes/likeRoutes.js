@@ -1,5 +1,6 @@
 const express = require("express");
 const postModel = require("../models/postModels");
+const User = require("../models/userModel");
 
 const likeRouter = express.Router();
 
@@ -17,6 +18,10 @@ likeRouter.post("/posts/like", async (req, res) => {
     if (post.likes.includes(userId)) {
       return res.status(400).json({ message: 'You already liked this post' });
     }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
     post.likes.push(userId);
     await post.save();
@@ -29,8 +34,8 @@ likeRouter.post("/posts/like", async (req, res) => {
         likes: post.likes.length,
       },
       user: {
-        // username: user.username,
-        // profileImage: user.profileImage,
+        username: user.username,
+        profileImage: user.profileImage,
         _id: user._id,
       },
     });

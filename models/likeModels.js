@@ -11,3 +11,4 @@ const likeSchema = new Schema(
 const likeModel = mongoose.model("Like", likeSchema);
 
 module.exports = likeModel;
+// this isnt being used anywhere
