@@ -68,11 +68,7 @@ likeRouter.post("/posts/unlike", async (req, res) => {
         content: post.content,
         likes: post.likes.length,
       },
-      user: {
-        // username: user.username,
-        // profileImage: user.profileImage,
-        _id: user._id,
-      },
+      user: null 
     });
   } catch (error) {
     console.error(error);
