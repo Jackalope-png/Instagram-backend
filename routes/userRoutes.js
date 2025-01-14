@@ -17,4 +17,6 @@ router.post('/:userId/follow', followController.follow);
 // Unfollow a user
 router.post('/:userId/unfollow', followController.unfollow);
 
+router.get('/users/:userId/followStatus', followController.checkFollowStatus);
+
 module.exports = router;

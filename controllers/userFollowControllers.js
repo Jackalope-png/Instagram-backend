@@ -63,3 +63,22 @@ exports.unfollow = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+exports.checkFollowStatus = async (req, res) => {
+    const { userId } = req.params;             // Logged-in user
+    const { userIdToCheck } = req.query;      // The user to check if logged-in user follows
+  
+    try {
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Check if logged-in user is following the target user
+      const isFollowing = user.following.includes(userIdToCheck);
+  
+      return res.status(200).json({ isFollowing });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Server error' });
+    }
+  };
